@@ -6,7 +6,11 @@ class TextTagController < ApplicationController
     # Your code goes below.
     # ================================================================================
 
-    @tags = "Replace this string with your answer"
+    input = @text
+    client = Algorithmia.client('simDcI/TGD/g9KX7ucQQlxzYMGF1')
+    algo = client.algo('nlp/AutoTag/1.0.1')
+    result = algo.pipe(input).result
+    @tags = result
 
     # ================================================================================
     # Your code goes above.

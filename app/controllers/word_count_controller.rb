@@ -2,6 +2,8 @@ class WordCountController < ApplicationController
   def word_count
     @text = params.fetch("user_text")
     @special_word = params.fetch("user_word")
+    @text_downcase = @text.downcase
+    @special_word_downcase = @special_word.downcase
 
     # ================================================================================
     # Your code goes below.
@@ -9,13 +11,13 @@ class WordCountController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
-    @word_count = "Replace this string with your answer"
+    @word_count = @text.split.length
 
-    @character_count_with_spaces = "Replace this string with your answer"
+    @character_count_with_spaces = @text.length
 
-    @character_count_without_spaces = "Replace this string with your answer"
+    @character_count_without_spaces = @text.length - @text.scan(/(?=#{" "})/).length
 
-    @occurrences = "Replace this string with your answer"
+    @occurrences = @text_downcase.scan(/(?=#{@special_word_downcase})/).length
 
     # ================================================================================
     # Your code goes above.

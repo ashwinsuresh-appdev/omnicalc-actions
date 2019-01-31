@@ -7,36 +7,57 @@ class StatsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer"
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer"
+    @count = @numbers.length
+    
+    min_num = @numbers.first
+    @numbers.each { |n| min_num = n if n < min_num }
 
-    @minimum = "Replace this string with your answer"
+    @minimum = min_num
 
-    @maximum = "Replace this string with your answer"
+    max_num = @numbers.first 
+    @numbers.each { |n| max_num = n if n > max_num }
 
-    @range = "Replace this string with your answer"
+    @maximum = max_num
+
+    @range = max_num - min_num
 
     # Median
     # ======
 
-    @median = "Replace this string with your answer"
+    def median(numbers)
+      sorted = @numbers.sort
+      len = sorted.length
+      (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
+    end
 
-    @sum = "Replace this string with your answer"
+    @median = median(@numbers)
 
-    @mean = "Replace this string with your answer"
+    @sum = @numbers.inject(0, :+)
+
+    @mean = @sum / @numbers.length
 
     # Variance
     # ========
 
-    @variance = "Replace this string with your answer"
+    def variance(numbers)
+      var_sum = @numbers.collect{|n| (n-@mean)**2}.inject(:+)
+      var_sum / @numbers.length
+    end
 
-    @standard_deviation = "Replace this string with your answer"
+    @variance = variance(@numbers)
+
+    @standard_deviation = Math.sqrt(@variance)
 
     # Mode
     # ====
 
-    @mode = "Replace this string with your answer"
+    def mode(numbers)
+      @numbers.group_by{ |e| e }.group_by{ |k, v| v.length }.max.pop.map{ |e| e.shift }.sort
+    end
+
+    @mode = mode(@numbers).join(", ")
 
     # ================================================================================
     # Your code goes above.
